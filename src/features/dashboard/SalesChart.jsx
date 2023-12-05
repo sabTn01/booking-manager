@@ -75,7 +75,6 @@ function SalesChart({ bookings, numDays }) {
     };
   });
 
-  console.log(allDates);
   const colors = isDarkMode
     ? {
         totalSales: { stroke: "#4f46e5", fill: "#4f46e5" },

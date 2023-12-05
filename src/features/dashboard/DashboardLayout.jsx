@@ -26,7 +26,6 @@ function DashboardLayout() {
 
   if (isLoadingBookings || isLoadingStays) return <Spinner />;
 
-  console.log("bookings", bookings);
   return (
     <StyledDashboardLayout>
       <Stats

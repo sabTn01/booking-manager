@@ -6,7 +6,7 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./hooks/useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 
-function LoginForm() {
+function LoginForm({ children }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading } = useLogin();
@@ -28,6 +28,7 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
+      {children}
       <FormRowVertical label="Email address">
         <Input
           type="email"

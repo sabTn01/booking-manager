@@ -29,7 +29,6 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    console.log("image", data);
     mutate({ ...data, image: data.image[0] });
   }
 

@@ -26,9 +26,6 @@ export async function getBookings({ filter, sortBy, page }) {
 
   const { data, error, count } = await query;
 
-  console.log("data", data);
-  console.log("count", count);
-
   if (error) {
     console.error(error);
     throw new Error("Bookings could not be loaded");
@@ -47,6 +44,20 @@ export async function getBooking(id) {
   if (error) {
     console.error(error);
     throw new Error("Booking not found");
+  }
+
+  return data;
+}
+
+export async function createBooking(newBooking) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert({ ...newBooking })
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error("Booking not created");
   }
 
   return data;

@@ -20,6 +20,7 @@ function SignupForm() {
       }
     );
   }
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Full name" error={errors?.fullName?.message}>

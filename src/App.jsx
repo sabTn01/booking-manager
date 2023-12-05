@@ -16,6 +16,7 @@ import Booking from "./pages/Booking";
 import Checkin from "./ui/Checkin";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import Landing from "./pages/Landing";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,6 +56,7 @@ function App() {
             </Route>
             <Route path="login" element={<Login />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
+            <Route path="/landing" element={<Landing />}></Route>
           </Routes>
         </BrowserRouter>
         <Toaster

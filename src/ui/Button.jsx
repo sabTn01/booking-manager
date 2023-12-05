@@ -18,6 +18,11 @@ const sizes = {
     padding: 1.2rem 2.4rem;
     font-weight: 500;
   `,
+  xlarge: css`
+    font-size: 2rem;
+    padding: 2rem 3.4rem;
+    font-weight: 800;
+  `,
 };
 
 const variations = {

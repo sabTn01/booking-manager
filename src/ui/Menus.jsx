@@ -97,7 +97,6 @@ function Toggle({ id }) {
       y: rect.y + rect.height + 8,
     });
 
-    console.log(rect);
     openId === "" || openId !== id ? open(id) : close();
   }
 
@@ -107,6 +106,7 @@ function Toggle({ id }) {
     </StyledToggle>
   );
 }
+
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
   const ref = useOutsideClick(close, false);
@@ -137,6 +137,7 @@ function Button({ children, icon, onClick }) {
     </li>
   );
 }
+
 Menus.Menu = StyledMenu;
 Menus.Toggle = Toggle;
 Menus.List = List;

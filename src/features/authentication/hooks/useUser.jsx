@@ -7,5 +7,11 @@ export function useUser() {
     queryFn: getCurrentUser,
   });
 
-  return { isLoading, user, isAuthenticated: user?.role === "authenticated" };
+  return {
+    isLoading,
+    user,
+    isAuthenticated: user?.role === "authenticated",
+    isAdmin: user?.app_metadata?.userrole === "webadmin",
+    isSupervisor: user?.app_metadata?.userrole === "supervisor",
+  };
 }

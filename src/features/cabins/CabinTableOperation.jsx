@@ -1,10 +1,15 @@
 import TableOperations from "../../ui/TableOperations";
 import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
+import AddCabin from "./AddCabin";
+import { useUser } from "../authentication/hooks/useUser";
 
 function CabinTableOperation() {
+  const { isAdmin, isSupervisor } = useUser();
+
   return (
     <TableOperations>
+      {(isAdmin || isSupervisor) && <AddCabin />}
       <Filter
         filterField="discount"
         options={[

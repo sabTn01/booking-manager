@@ -5,47 +5,29 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 import { useForm } from "react-hook-form";
-import { useCreateCabin } from "./hooks/useCreateCabin";
-import { useEditCabin } from "./hooks/useEditCabin";
+import { useCreateBooking } from "./hooks/useCreateBooking";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 
-function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
+function CreateBookingForm({ onCloseModal }) {
+  // const { id: editId, ...editValues } = cabinToEdit;
+  // const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
 
   const { errors } = formState;
-  const { isCreating, createCabin } = useCreateCabin();
-  const { isEditing, editCabin } = useEditCabin();
-  const isWorking = isCreating || isEditing;
+  const { isCreating, createBooking } = useCreateBooking();
 
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-
-    if (isEditSession)
-      editCabin(
-        { newCabinData: { ...data, image }, id: editId },
-        {
-          onSuccess: () => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
-    else
-      createCabin(
-        { ...data, image },
-        {
-          onSuccess: () => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
+    createBooking(
+      { ...data },
+      {
+        onSuccess: () => {
+          reset();
+          onCloseModal?.();
+        },
+      }
+    );
   }
 
   function onError(errors) {
@@ -54,10 +36,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
   return (
     <Row type="vertical">
-      <Heading as="h1">
-        {isEditSession ? "Edit cabin" : "Create new cabin"}
-      </Heading>
-
+      <Heading as="h1">Create new cabin</Heading>
       <Form
         onSubmit={handleSubmit(onSubmit, onError)}
         type={onCloseModal ? "modal" : "regular"}
@@ -119,16 +98,6 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           />
         </FormRow>
 
-        <FormRow label="Cabin photo">
-          <FileInput
-            id="image"
-            accept="image/*"
-            {...register("image", {
-              required: isEditSession ? false : "This field is required",
-            })}
-          />
-        </FormRow>
-
         <FormRow>
           {/* type is an HTML attribute! */}
           <Button
@@ -138,13 +107,11 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           >
             Cancel
           </Button>
-          <Button disabled={isWorking}>
-            {isEditSession ? "Edit" : "Create"}
-          </Button>
+          <Button disabled={isCreating}>Create</Button>
         </FormRow>
       </Form>
     </Row>
   );
 }
 
-export default CreateCabinForm;
+export default CreateBookingForm;

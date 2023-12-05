@@ -1,10 +1,15 @@
 import SortBy from "../../ui/SortBy";
 import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
+import AddBooking from "./AddBooking";
+import { useUser } from "../authentication/hooks/useUser";
 
 function BookingTableOperations() {
+  const { isAdmin, isSupervisor } = useUser();
+
   return (
     <TableOperations>
+      {(isAdmin || isSupervisor) && <AddBooking />}
       <Filter
         filterField="status"
         options={[
