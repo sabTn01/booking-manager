@@ -33,6 +33,7 @@ export async function createEditCabin(newCabin, id) {
   const { data, error } = await query.select().single();
 
   if (error) {
+    console.log("error", error);
     throw new Error("Cabin not created");
   }
 

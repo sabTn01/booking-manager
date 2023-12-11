@@ -61,19 +61,19 @@ function MainNav() {
     <nav>
       <NavList>
         <li>
-          <StyledNavLink to="/dashboard">
+          <StyledNavLink to="/app/dashboard">
             <HiOutlineHome />
             Home
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/bookings">
+          <StyledNavLink to="/app/bookings">
             <HiOutlineCalendarDays />
             Bookings
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/cabins">
+          <StyledNavLink to="/app/cabins">
             <HiOutlineHomeModern />
             Cabins
           </StyledNavLink>
@@ -81,13 +81,13 @@ function MainNav() {
         {isAdmin && (
           <>
             <li>
-              <StyledNavLink to="/users">
+              <StyledNavLink to="/app/users">
                 <HiOutlineUsers />
                 Users
               </StyledNavLink>
             </li>
             <li>
-              <StyledNavLink to="/settings">
+              <StyledNavLink to="/app/settings">
                 <HiOutlineCog6Tooth />
                 Settings
               </StyledNavLink>
