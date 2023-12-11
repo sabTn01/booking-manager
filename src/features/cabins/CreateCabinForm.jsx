@@ -108,10 +108,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           />
         </FormRow>
 
-        <FormRow
-          label="Description for website"
-          error={errors?.description?.message}
-        >
+        <FormRow label="Description" error={errors?.description?.message}>
           <Textarea
             id="description"
             defaultValue=""

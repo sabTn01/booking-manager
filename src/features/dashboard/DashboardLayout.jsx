@@ -7,6 +7,7 @@ import Stats from "./Stats";
 import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import { usePermissions } from "../../hooks/usePermissions";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -17,6 +18,8 @@ const StyledDashboardLayout = styled.div`
 
 function DashboardLayout() {
   const { isLoading: isLoadingBookings, bookings } = useRecentBookings();
+  const { access } = usePermissions();
+
   const {
     isLoading: isLoadingStays,
     confirmedStays,
@@ -36,7 +39,9 @@ function DashboardLayout() {
       />
       <TodayActivity />
       <DurationChart confirmedStays={confirmedStays}></DurationChart>
-      <SalesChart bookings={bookings} numDays={numDays} />
+      {access.find((x) => x === "read-sales") && (
+        <SalesChart bookings={bookings} numDays={numDays} />
+      )}
     </StyledDashboardLayout>
   );
 }

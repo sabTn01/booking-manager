@@ -8,6 +8,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { usePermissions } from "../../hooks/usePermissions";
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -47,10 +48,17 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+const accessNames = ["delete-cabins", "insert-cabins", "update-cabins"];
 
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { createCabin } = useCreateCabin();
+  const { access } = usePermissions();
+
+  const hasDuplicateAccess = access.find((x) => x === accessNames[1]);
+  const hasEditAccess = access.find((x) => x === accessNames[2]);
+  const hasDeleteAccess = access.find((x) => x === accessNames[0]);
+
   const {
     id: cabinId,
     name,
@@ -83,38 +91,53 @@ function CabinRow({ cabin }) {
       ) : (
         <span>&mdash;</span>
       )}
-      <div>
-        <Modal>
-          <Menus.Menu>
-            <Menus.Toggle id={cabinId} />
-            <Menus.List id={cabinId}>
-              <Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack />}>
-                Duplicate
-              </Menus.Button>
+      {(hasDeleteAccess || hasDuplicateAccess || hasEditAccess) && (
+        <div>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={cabinId} />
+              <Menus.List id={cabinId}>
+                {hasDuplicateAccess && (
+                  <Menus.Button
+                    onClick={handleDuplicate}
+                    icon={<HiSquare2Stack />}
+                  >
+                    Duplicate
+                  </Menus.Button>
+                )}
 
-              <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-              </Modal.Open>
+                {hasEditAccess && (
+                  <Modal.Open opens="edit">
+                    <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                  </Modal.Open>
+                )}
 
-              <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-              </Modal.Open>
-            </Menus.List>
-          </Menus.Menu>
+                {hasDeleteAccess && (
+                  <Modal.Open opens="delete">
+                    <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                  </Modal.Open>
+                )}
+              </Menus.List>
+            </Menus.Menu>
 
-          <Modal.Window name="edit">
-            <CreateCabinForm cabinToEdit={cabin} />
-          </Modal.Window>
+            {hasEditAccess && (
+              <Modal.Window name="edit">
+                <CreateCabinForm cabinToEdit={cabin} />
+              </Modal.Window>
+            )}
 
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName="cabins"
-              disabled={isDeleting}
-              onConfirm={() => deleteCabin(cabinId)}
-            />
-          </Modal.Window>
-        </Modal>
-      </div>
+            {hasDeleteAccess && (
+              <Modal.Window name="delete">
+                <ConfirmDelete
+                  resourceName="cabins"
+                  disabled={isDeleting}
+                  onConfirm={() => deleteCabin(cabinId)}
+                />
+              </Modal.Window>
+            )}
+          </Modal>
+        </div>
+      )}
     </Table.Row>
   );
 }

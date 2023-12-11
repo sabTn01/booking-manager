@@ -18,17 +18,21 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./hooks/useDeleteBooking";
 import Empty from "../../ui/Empty";
+import { usePermissions } from "../../hooks/usePermissions";
 
 const HeadingGroup = styled.div`
   display: flex;
   gap: 2.4rem;
   align-items: center;
 `;
+const accessName = "delete-bookings";
 
 function BookingDetail() {
   const { isLoading, booking } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { isDeletingBooking, deleteBooking } = useDeleteBooking();
+  const { access } = usePermissions();
+
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
@@ -71,22 +75,24 @@ function BookingDetail() {
           </Button>
         )}
 
-        <Modal>
-          <Modal.Open opens="delete">
-            <Button variation="danger">Delete Booking</Button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName="booking"
-              disabled={isDeletingBooking}
-              onConfirm={() => {
-                deleteBooking(bookingId, {
-                  onSettled: () => navigate("/app/bookings"),
-                });
-              }}
-            />
-          </Modal.Window>
-        </Modal>
+        {access.find((x) => x === accessName) && (
+          <Modal>
+            <Modal.Open opens="delete">
+              <Button variation="danger">Delete Booking</Button>
+            </Modal.Open>
+            <Modal.Window name="delete">
+              <ConfirmDelete
+                resourceName="booking"
+                disabled={isDeletingBooking}
+                onConfirm={() => {
+                  deleteBooking(bookingId, {
+                    onSettled: () => navigate("/app/bookings"),
+                  });
+                }}
+              />
+            </Modal.Window>
+          </Modal>
+        )}
 
         <Button variation="secondary" onClick={moveBack}>
           Back

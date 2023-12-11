@@ -2,14 +2,15 @@ import SortBy from "../../ui/SortBy";
 import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
 import AddBooking from "./AddBooking";
-import { useUser } from "../authentication/hooks/useUser";
+import { usePermissions } from "../../hooks/usePermissions";
 
+const accessName = "insert-bookings";
 function BookingTableOperations() {
-  const { isAdmin, isSupervisor } = useUser();
-
+  const { access } = usePermissions();
+  console.log(access);
   return (
     <TableOperations>
-      {(isAdmin || isSupervisor) && <AddBooking />}
+      {access.find((x) => x === accessName) && <AddBooking />}
       <Filter
         filterField="status"
         options={[

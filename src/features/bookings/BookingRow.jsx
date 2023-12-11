@@ -18,6 +18,7 @@ import Menus from "../../ui/Menus";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./hooks/useDeleteBooking";
+import { usePermissions } from "../../hooks/usePermissions";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -45,7 +46,7 @@ const Amount = styled.div`
   font-family: "Sono";
   font-weight: 500;
 `;
-
+const accessName = "delete-bookings";
 function BookingRow({
   booking: {
     id: bookingId,
@@ -63,6 +64,7 @@ function BookingRow({
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { isDeletingBooking, deleteBooking } = useDeleteBooking();
+  const { access } = usePermissions();
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -110,7 +112,7 @@ function BookingRow({
             {status === "unconfirmed" && (
               <Menus.Button
                 icon={<HiArrowDownOnSquare />}
-                onClick={() => navigate(`/checkin/${bookingId}`)}
+                onClick={() => navigate(`/app/checkin/${bookingId}`)}
               >
                 Check in
               </Menus.Button>
@@ -125,9 +127,11 @@ function BookingRow({
               </Menus.Button>
             )}
 
-            <Modal.Open opens="delete">
-              <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
-            </Modal.Open>
+            {access.find((x) => x === accessName) && (
+              <Modal.Open opens="delete">
+                <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
+              </Modal.Open>
+            )}
           </Menus.List>
         </Menus.Menu>
         <Modal.Window name="delete">

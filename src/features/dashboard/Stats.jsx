@@ -1,3 +1,4 @@
+import { usePermissions } from "../../hooks/usePermissions";
 import { formatCurrency } from "../../utils/helpers";
 import Stat from "./Stat";
 import {
@@ -8,6 +9,8 @@ import {
 } from "react-icons/hi2";
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
+  const { access } = usePermissions();
+
   const numBookings = bookings.length;
   const checkins = confirmedStays.length;
   const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
@@ -23,12 +26,14 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         value={numBookings}
       />
 
-      <Stat
-        title="Sales"
-        color="green"
-        icon={<HiOutlineBanknotes />}
-        value={formatCurrency(sales)}
-      />
+      {access.find((x) => x === "read-sales") && (
+        <Stat
+          title="Sales"
+          color="green"
+          icon={<HiOutlineBanknotes />}
+          value={formatCurrency(sales)}
+        />
+      )}
 
       <Stat
         title="Check ins"
