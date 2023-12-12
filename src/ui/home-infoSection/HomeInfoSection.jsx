@@ -39,7 +39,7 @@ const HomeInfoSection = ({
                 <TopLine lightTopLine={lightTopLine}>{topLine}</TopLine>
                 <Heading lightText={lightText}>{headline}</Heading>
                 <Subtitle lightTextDesc={lightTextDesc}>{description}</Subtitle>
-                <Link to="/app" target="blank">
+                <Link to="/app/dashboard" target="blank">
                   <Button
                     size="xlarge"
                     variation={primary ? "primary" : "secondary"}
