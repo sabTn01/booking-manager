@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 
 const StyledLogo = styled.div`
   text-align: center;
-  padding: 2rem 2rem;
 `;
 
 const Img = styled.img`
-  height: 9.6rem;
   width: auto;
 `;
 

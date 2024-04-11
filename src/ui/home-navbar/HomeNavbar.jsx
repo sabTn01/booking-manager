@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FaMagento } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HomeContainer from "../HomeContainer";
+import { FaGithub } from "react-icons/fa";
+import ButtonIcon from "../ButtonIcon";
 
 export const Nav = styled.nav`
   background: #101522;
@@ -49,6 +51,14 @@ function HomeNavbar() {
               <NavIcon />
               SABER
             </NavLogo>
+            <ButtonIcon size="xlarge">
+              <a
+                href="https://github.com/sabTn01/booking-manager"
+                target="_blank"
+              >
+                <FaGithub />
+              </a>
+            </ButtonIcon>
           </NavbarContainer>
         </Nav>
       </IconContext.Provider>
